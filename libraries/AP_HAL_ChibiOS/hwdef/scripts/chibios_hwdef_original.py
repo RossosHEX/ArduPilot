@@ -59,12 +59,6 @@ bylabel = {}
 # list of SPI devices
 spidev = []
 
-# list of stubbed out libraries:
-stubbed_out_libs = []
-
-# list of stubbed out files:
-stubbed_out_files = []
-
 # dictionary of ROMFS files
 romfs = {}
 
@@ -558,17 +552,6 @@ def write_mcu_config(f):
         f.write('\n// core-coupled memory\n')
         f.write('#define CCM_RAM_SIZE_KB %u\n' % ccm_size)
         f.write('#define CCM_BASE_ADDRESS 0x%08x\n' % get_mcu_config('CCM_BASE_ADDRESS', True))
-    
-    for k in stubbed_out_libs:
-        print("Stubbing out: %s" % k)
-        env_vars["STUB_OUT_%s" % k] = 1
-        f.write('#define STUB_OUT_%s 1\n' % k)
-
-    for k in stubbed_out_files:
-        print("Stubbing out file: %s" % k)
-        env_vars["STUB_FILE_OUT_%s" % k] = 1
-        f.write('#define STUB_FILE_OUT_%s 1\n' % k)
-    f.write('\n')
 
     # get DTCM memory if available (DMA-capable with no cache flush/invalidate)
     dtcm_size = get_mcu_config('DTCM_RAM_SIZE_KB')
@@ -1468,10 +1451,6 @@ def process_line(line):
         romfs_add(a[1],a[2])
     if a[0] == 'ROMFS_WILDCARD':
         romfs_wildcard(a[1])
-    if a[0] == 'STUB_OUT':
-        stubbed_out_libs.extend(a[1:])
-    if a[0] == 'STUB_FILE_OUT':
-        stubbed_out_files.extend(a[1:])
     if a[0] == 'undef':
         print("Removing %s" % a[1])
         config.pop(a[1], '')
