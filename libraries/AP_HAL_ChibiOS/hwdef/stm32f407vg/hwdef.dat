@@ -69,12 +69,12 @@ PB10 I2C2_SCL I2C2
 PB11 I2C2_SDA I2C2
 
 # Now setup the pins for the microSD card, if available.
-PC8 SDIO_D0 SDIO
-PC9 SDIO_D1 SDIO
-PC10 SDIO_D2 SDIO
-PC11 SDIO_D3 SDIO
-PC12 SDIO_CK SDIO
-PD2 SDIO_CMD SDIO
+# ~ PC8 SDIO_D0 SDIO
+# ~ PC9 SDIO_D1 SDIO
+# ~ PC10 SDIO_D2 SDIO
+# ~ PC11 SDIO_D3 SDIO
+# ~ PC12 SDIO_CK SDIO
+# ~ PD2 SDIO_CMD SDIO
 
 # Now we start defining some PWM pins. We also map these pins to GPIO
 # values, so users can set BRD_PWM_COUNT to choose how many of the PWM
@@ -90,18 +90,22 @@ PD14 TIM4_CH3 TIM4 PWM(6) GPIO(55)
 
 define BOARD_PWM_COUNT_DEFAULT 4
 
+# "PPM" solder pad/resistor should be soldered and "S-BUS" resistor/solder pad removed
+# Overwise UART1 or RCIN will not work
+# ~ PB14 TIM12_CH1 TIM12 RCININT PULLDOWN LOW
+
 
 # Now define fallback storage location is flash if no FRAM
 # fitted. This needs to be carefully chosen to align with your
 # bootloader. The flash storage system needs two sectors, and the
 # sectors must be at least 20% larger than HAL_STORAGE_SIZE.
-define STORAGE_FLASH_PAGE 22
+# ~ define STORAGE_FLASH_PAGE 22
 
 # Enable RAMTROM parameter storage.
-define HAL_WITH_RAMTRON 1
+# ~ define HAL_WITH_RAMTRON 1
 
 # Enable FAT filesystem support (needs a microSD defined via SDIO).
-define HAL_OS_FATFS_IO 1
+# ~ define HAL_OS_FATFS_IO 1
 
 # This defines the default maximum clock on I2C devices.
 define HAL_I2C_MAX_CLOCK 100000
